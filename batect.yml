@@ -1,0 +1,41 @@
+containers:
+  node-env:
+    image: docker.io/node:18-alpine
+    volumes:
+      - local: <{batect.project_directory}
+        container: /code
+        options: cached
+    working_directory: /code
+
+  trufflehog:
+    image: docker.io/trufflesecurity/trufflehog:latest
+    volumes:
+      - local: <{batect.project_directory}
+        container: "/code"
+        options: cached
+    working_directory: "/code"
+
+tasks:
+  lint:
+    description: run lint for this app
+    run:
+      container: node-env
+      command: yarn run lint
+
+  test:
+    description: run test for this app
+    run:
+      container: node-env
+      command: yarn run test
+
+  run:
+    description: run build for this app
+    run:
+      container: node-env
+      command: yarn run start
+
+  trufflehog:
+    description: "Check current commit with trufflehog"
+    run:
+      container: "trufflehog"
+      command: "git --no-update --no-verification --fail -x .trufflehog-ignore file://."

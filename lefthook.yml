@@ -1,0 +1,21 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      glob: "**/*.{ts,tsx,js,jsx}"
+      run: ./batect lint -- {staged_files}
+    node-license-check:
+      glob: "yarn.lock"
+      run: yarn licenses audit --config=licenses.config.js --summary
+      skip:
+        - rebase
+        - merge
+    secrets:
+      run: ./batect trufflehog -- --since-commit HEAD
+
+pre-push:
+  parallel: true
+  commands:
+    test:
+      glob: "*test.ts"
+      run: ./batect test -- {staged_files}

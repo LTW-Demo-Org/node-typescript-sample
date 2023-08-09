@@ -1,0 +1,47 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "parserOptions": {
+    "sourceType": "module",
+    "project": ["./tsconfig.json"]
+  },
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "semi": ["error", "always"],
+    "semi-spacing": ["error", {"before": false, "after": true}],
+    "curly": ["error", "all"],
+    "no-trailing-spaces": ["error", { "skipBlankLines": true, "ignoreComments": true }],
+    "linebreak-style": ["warn", "unix"],
+    "indent": ["error", 2],
+    "@typescript-eslint/indent": ["error", 2],
+    "@typescript-eslint/no-unused-vars": ["error", { 
+      "argsIgnorePattern": "^_",
+      "varsIgnorePattern": "^_",
+      "caughtErrorsIgnorePattern": "^_"
+    }],
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-misused-promises": "error"
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.{js,jsx,ts,tsx}",
+        "test/*.{js,jsx,ts,tsx}",
+        "test/**/*.{js,jsx,ts,tsx}"
+      ],
+      "plugins": [ "jest" ],
+      "extends": [ "plugin:jest/recommended" ],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "warn"
+      }
+    }
+  ]
+}
